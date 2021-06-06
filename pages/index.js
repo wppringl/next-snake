@@ -220,11 +220,11 @@ export default function Home() {
         timeoutId.current = setTimeout(move, time.current);
       }
     }
-  }, [snake, isPlaying, direction, gameOver, isBeatLevel]);
+  }, [snake, isPlaying, direction, gameOver]);
   
   return (
     <Stack alignItems="center" justifyContent="center" minHeight="100vh">
-       <Heading color = "blue" >William's Simple Snake Game </Heading>
+       <Heading color = "blue" >Basic And Easy Snake Game </Heading>
       <Heading> Game Level: {level}  </Heading>
       <Flex alignItems="center">
         <SimpleGrid
