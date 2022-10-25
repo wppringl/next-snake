@@ -12,8 +12,8 @@ const backgroundColorMap = {
   cell: "transparent",
   snake: "green",
   snakeHead: "green", //"#73b173",
-//snakeBody: "green",
-//snakeTail: "#b4c7b4",
+  //snakeBody: "green",
+  //snakeTail: "#b4c7b4",
   fruit: "red",
 };
 
@@ -30,7 +30,6 @@ const INITIAL_LEVEL = 1;
 const INITIAL_FRUIT_COUNT = 0;
 let level = INITIAL_LEVEL;
 let fruitCount = INITIAL_FRUIT_COUNT;
-
 
 const levelFruitMap = {
   1: 8,
@@ -60,7 +59,7 @@ const borderColorMap = {
 
 const createGameboard = () => {
   const gameboard = [];
-  for (let i = 0; i < (levelWidthMap[level] * levelWidthMap[level]); i++) {
+  for (let i = 0; i < levelWidthMap[level] * levelWidthMap[level]; i++) {
     gameboard.push("cell");
   }
   INITIAL_SNAKE.forEach((snake) => (gameboard[snake] = "snake"));
@@ -94,7 +93,7 @@ export default function Home() {
   };
 
   const startNextLevel = () => {
-    if (levelWidthMap[level + 1]){
+    if (levelWidthMap[level + 1]) {
       level += 1;
       directionMap["ArrowDown"] = levelWidthMap[level];
       directionMap["ArrowUp"] = -levelWidthMap[level];
@@ -146,7 +145,7 @@ export default function Home() {
       // this means that the snake has captured the fruit
       fruitCount += 1;
       score.current += 10;
-      if (fruitCount >= levelFruitMap[level]){
+      if (fruitCount >= levelFruitMap[level]) {
         setIsBeatLevel(true);
         setIsPlaying(false);
         setGameOver(true);
@@ -173,7 +172,10 @@ export default function Home() {
       return;
     }
 
-    if (direction === "ArrowLeft" && (newHead + 1) % levelWidthMap[level] === 0) {
+    if (
+      direction === "ArrowLeft" &&
+      (newHead + 1) % levelWidthMap[level] === 0
+    ) {
       setGameOver(true);
       if (score.current > highScore) {
         setHighScore(score.current);
@@ -221,11 +223,11 @@ export default function Home() {
       }
     }
   }, [snake, isPlaying, direction, gameOver]);
-  
+
   return (
     <Stack alignItems="center" justifyContent="center" minHeight="100vh">
-       <Heading color = "blue" >Basic And Easy Snake Game </Heading>
-      <Heading> Game Level: {level}  </Heading>
+      <Heading color="blue">Retro Snake Game </Heading>
+      <Heading> Game Level: {level} </Heading>
       <Flex alignItems="center">
         <SimpleGrid
           columns={levelWidthMap[level]}
@@ -233,28 +235,44 @@ export default function Home() {
           width={`${levelWidthMap[level] * CELL_WIDTH}px`}
           border="1px solid"
           borderColor={gameOver && borderColorMap[isBeatLevel]}
-          >
+        >
           {gameboard.map((item, index) => (
             <Box
               width={`${CELL_WIDTH}px`}
               height={`${CELL_WIDTH}px`}
               background={backgroundColorMap[item]}
-              borderTopRightRadius={(item==="snakeHead" && (direction === "ArrowRight" || direction === "ArrowUp")) && "50%"}
-              borderBottomRightRadius={(item==="snakeHead" && (direction === "ArrowRight" || direction === "ArrowDown")) && "50%"}
-              borderTopLeftRadius={(item==="snakeHead" && (direction === "ArrowLeft" || direction === "ArrowUp")) && "50%"}
-              borderBottomLeftRadius={(item==="snakeHead" && (direction === "ArrowLeft" || direction === "ArrowDown")) && "50%"}
-              borderRadius={item==="fruit" && "50%"}
+              borderTopRightRadius={
+                item === "snakeHead" &&
+                (direction === "ArrowRight" || direction === "ArrowUp") &&
+                "50%"
+              }
+              borderBottomRightRadius={
+                item === "snakeHead" &&
+                (direction === "ArrowRight" || direction === "ArrowDown") &&
+                "50%"
+              }
+              borderTopLeftRadius={
+                item === "snakeHead" &&
+                (direction === "ArrowLeft" || direction === "ArrowUp") &&
+                "50%"
+              }
+              borderBottomLeftRadius={
+                item === "snakeHead" &&
+                (direction === "ArrowLeft" || direction === "ArrowDown") &&
+                "50%"
+              }
+              borderRadius={item === "fruit" && "50%"}
               key={index}
             />
           ))}
         </SimpleGrid>
       </Flex>
-      {(!isPlaying && !isBeatLevel) && (
+      {!isPlaying && !isBeatLevel && (
         <Button size="lg" onClick={startGame}>
           Start
         </Button>
       )}
-      {(!isPlaying && isBeatLevel) && (
+      {!isPlaying && isBeatLevel && (
         <Button size="lg" onClick={startNextLevel}>
           Start Next Level
         </Button>
@@ -264,9 +282,9 @@ export default function Home() {
           Reset
         </Button>
       )}
-       <Flex alignContent="center">
-        <Heading as="h3" size="lg" >
-         Score: {score.current}    High Score: {highScore}
+      <Flex alignContent="center">
+        <Heading as="h3" size="lg">
+          Score: {score.current} High Score: {highScore}
         </Heading>
       </Flex>
     </Stack>
