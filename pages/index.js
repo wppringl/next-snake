@@ -226,7 +226,7 @@ export default function Home() {
 
   return (
     <Stack alignItems="center" justifyContent="center" minHeight="100vh">
-      <Heading color="blue">Retro Snake Game </Heading>
+      <Heading color="blue">New Retro Snake Game </Heading>
       <Heading> Game Level: {level} </Heading>
       <Flex alignItems="center">
         <SimpleGrid
